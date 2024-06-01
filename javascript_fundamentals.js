@@ -90,32 +90,26 @@ const LearnerSubmissions = [
 
 function getLearnerID(submissions) {
     let student_id = []
-    let unique_id = []
     for (let i = 0; i < submissions.length; i++) {
         if (typeof (submissions[i].learner_id) === 'number') {
             student_id.push(submissions[i].learner_id)
         }
     }
-    
-    return student_id
-    // console.log(student_id)
-}
-
-function removeDuplicates(arr) {
-    let unique_id = []
-    for (i = 0; i < arr.length; i++) {
-        if (unique_id.indexOf(arr[i]) === -1) {
-            unique_id.push(arr[i]);
+    // Remove duplicates
+    let uniqueLearnerID = []
+        for (i = 0; i < student_id.length; i++) {
+            if (uniqueLearnerID.indexOf(student_id[i]) === -1) {
+                uniqueLearnerID.push(student_id[i]);
+            }
         }
-    }
-    return unique_id;
+        return uniqueLearnerID;
+
 }
 
-let eachID = getLearnerID(LearnerSubmissions)
-// console.log(eachID) // [ 125, 125, 125, 132, 132 ]
-let uniqueID = removeDuplicates(eachID)
-// console.log(uniqueID) // [ 125, 132 ]
 
+
+let eachLearnerID = getLearnerID(LearnerSubmissions)
+console.log(eachLearnerID) 
 
 // Get the learner’s total, weighted average, in which assignments with more points_possible should be counted for more e.g. a learner with 50/100 on one assignment and 190/200 on another would have a weighted average score of 240/300 = 80%. Each assignment should have a key with its ID and the value associated with it should be the percentage that the learner scored on the assignment (submission.score / points_possible)
 
@@ -153,27 +147,29 @@ function getWeightedAvg(submissions, assignmentGroup) {
 }
 
 let weightedAvgs = getWeightedAvg(LearnerSubmissions, AssignmentGroup.assignments)
-console.log(weightedAvgs)
+// console.log(weightedAvgs)
 
-function assignmentScores(submissions, scores) {
-    let keys = Object.keys(submissions)
-    let values = Object.values(submissions)
-    let collectData = []
+// *****************************COME BACK********************************************
+// function assignmentScores(submissions, scores) {
+//     let keys = Object.keys(submissions)
+//     let values = Object.values(submissions)
+//     let collectData = []
 
-    // Cycle through LearnerSubmissions for the learner_id
-    for (let i = 0; i < submissions.length; i++) {
-        if (typeof (submissions[i].learner_id) === "number") {
-            collectData.push(submissions[i].learner_id, submissions[i].submission.score)
-            console.log(`${submissions[i].learner_id}: ${submissions[i].submission.score}`)
+//     // Cycle through LearnerSubmissions for the learner_id
+//     for (let i = 0; i < submissions.length; i++) {
+//         if (typeof (submissions[i].learner_id) === "number") {
+//             collectData.push(submissions[i].learner_id, submissions[i].submission.score)
+//             console.log(`${submissions[i].learner_id}: ${submissions[i].submission.score}`)
 
-            // collectData[keys[i]] = values[i]
-        }
-    }
-    // console.log(keys)
-    // console.log(values)
-    console.log(collectData)
-}
+//             // collectData[keys[i]] = values[i]
+//         }
+//     }
+//     // console.log(keys)
+//     // console.log(values)
+//     console.log(collectData)
+// }
 // assignmentScores(LearnerSubmissions)
+// *************************************************************************
 
 
 // Each assignment should have a key with its ID (1, 2, or 3) and the value of the learner's score on that particular assignment = 1: .90, 2: .87
@@ -216,6 +212,9 @@ function matchIds(course, assignment) {
 /* Create a function named getLearnerData() that accepts these values as parameters, in the order listed: (CourseInfo, AssignmentGroup, [LearnerSubmission]), and returns the formatted result, which should be an array of objects as described above. You may use as many helper functions as you see fit.*/
 
 function getLearnerData(courseInfo, assignmentGroup, [learnerSubmission]) {
+    const result = []
+
+    
     return {
         id: id,
         avg: number,
