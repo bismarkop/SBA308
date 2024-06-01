@@ -79,35 +79,42 @@ const LearnerSubmissions = [
     }
 ];
 
+
+
+
 // Your goal is to analyze and transform this data such that the output of your program is an array of objects, each containing the following information in the following format:
 
 
 // Get the ID of the learner for which this data has been collected
+//Figure out how to remove duplicates******
 
 function getLearnerID(submissions) {
     let student_id = []
     let unique_id = []
     for (let i = 0; i < submissions.length; i++) {
-        if (typeof(submissions[i].learner_id) === 'number') {
+        if (typeof (submissions[i].learner_id) === 'number') {
             student_id.push(submissions[i].learner_id)
-        
+        }
     }
-    console.log(student_id)
     
-    // function removeDuplicates(arr) {
-    //     let student_id = []
-    //     arr.forEach(element => {
-    //         if(!student_id.includes(element)) {
-    //             student_id.push(element)
-    //         }
-    //     })
-    //     return student_id
-    // }
-
-
+    return student_id
+    // console.log(student_id)
 }
 
-console.log(getLearnerID(LearnerSubmissions))
+function removeDuplicates(arr) {
+    let unique_id = []
+    for (i = 0; i < arr.length; i++) {
+        if (unique_id.indexOf(arr[i]) === -1) {
+            unique_id.push(arr[i]);
+        }
+    }
+    return unique_id;
+}
+
+let eachID = getLearnerID(LearnerSubmissions)
+// console.log(eachID) // [ 125, 125, 125, 132, 132 ]
+let uniqueID = removeDuplicates(eachID)
+// console.log(uniqueID) // [ 125, 132 ]
 
 
 // Get the learner’s total, weighted average, in which assignments with more points_possible should be counted for more e.g. a learner with 50/100 on one assignment and 190/200 on another would have a weighted average score of 240/300 = 80%. Each assignment should have a key with its ID and the value associated with it should be the percentage that the learner scored on the assignment (submission.score / points_possible)
@@ -131,7 +138,7 @@ function getWeightedAvg(submissions, assignmentGroup) {
     for (let learnerID in learnerSubmissionIDs) {
         let learnerSubmissions = learnerSubmissionIDs[learnerID]
         let totalWeightedScore = 0
-        
+
         learnerSubmissions.forEach(sub => {
             let assignment = assignmentGroup.find(a => a.id === sub.assignment_id)
             if (assignment) {
@@ -146,7 +153,7 @@ function getWeightedAvg(submissions, assignmentGroup) {
 }
 
 let weightedAvgs = getWeightedAvg(LearnerSubmissions, AssignmentGroup.assignments)
-// console.log(weightedAvgs)
+console.log(weightedAvgs)
 
 function assignmentScores(submissions, scores) {
     let keys = Object.keys(submissions)
@@ -155,13 +162,13 @@ function assignmentScores(submissions, scores) {
 
     // Cycle through LearnerSubmissions for the learner_id
     for (let i = 0; i < submissions.length; i++) {
-        if (typeof(submissions[i].learner_id) === "number") {
+        if (typeof (submissions[i].learner_id) === "number") {
             collectData.push(submissions[i].learner_id, submissions[i].submission.score)
             console.log(`${submissions[i].learner_id}: ${submissions[i].submission.score}`)
-            
+
             // collectData[keys[i]] = values[i]
         }
-    } 
+    }
     // console.log(keys)
     // console.log(values)
     console.log(collectData)
@@ -208,10 +215,10 @@ function matchIds(course, assignment) {
 
 /* Create a function named getLearnerData() that accepts these values as parameters, in the order listed: (CourseInfo, AssignmentGroup, [LearnerSubmission]), and returns the formatted result, which should be an array of objects as described above. You may use as many helper functions as you see fit.*/
 
-// function getLearnerData(courseInfo, assignmentGroup, [learnerSubmission]) {
-//     return {
-//         id: id,
-//         avg: number,
-//         assignment_id: number
-//     }
-// }
+function getLearnerData(courseInfo, assignmentGroup, [learnerSubmission]) {
+    return {
+        id: id,
+        avg: number,
+        assignment_id: number
+    }
+}
