@@ -106,22 +106,27 @@ function getLearnerID(submissions) {
 
 }
 
-
-
 let eachLearnerID = getLearnerID(LearnerSubmissions)
-console.log(eachLearnerID) 
+// console.log(eachLearnerID) 
 
 // Get the learner’s total, weighted average, in which assignments with more points_possible should be counted for more e.g. a learner with 50/100 on one assignment and 190/200 on another would have a weighted average score of 240/300 = 80%. Each assignment should have a key with its ID and the value associated with it should be the percentage that the learner scored on the assignment (submission.score / points_possible)
 
 function getWeightedAvg(submissions, assignmentGroup) {
     // Total points
+    // This intializes totalPointsPossible to store the total points possible for all assignments in the group. reduce() is used to sum the points_possible values from all assignments in this assignmentGroup, 
+
     let totalPointsPossible = assignmentGroup.reduce((sum, assignment) => sum + assignment.points_possible, 0)
 
     // Group submissions by learner ID
+    // This section creates an empty object (learnerSubmissionIDs) to store the submissions and is groupd by learner ID. This step creates a structure where learnerSubmissionIDs becomes and object containing the learner IDs as keys, and their respective submission array is values
+
+    // This uses the reduce method to iterate over each submission in submissions (LearnerSubmissions in this case)
     let learnerSubmissionIDs = submissions.reduce((accumulator, submission) => {
+        // If the learner_id is not already a key in LearnerSubmissionIDs, a new empty array is created for that learner_id 
         if (!accumulator[submission.learner_id]) {
             accumulator[submission.learner_id] = []
         }
+        //The current submission is then pushed into the array associated with its learner_id
         accumulator[submission.learner_id].push(submission)
         return accumulator
     }, {})
@@ -150,25 +155,34 @@ let weightedAvgs = getWeightedAvg(LearnerSubmissions, AssignmentGroup.assignment
 // console.log(weightedAvgs)
 
 // *****************************COME BACK********************************************
-// function assignmentScores(submissions, scores) {
-//     let keys = Object.keys(submissions)
-//     let values = Object.values(submissions)
-//     let collectData = []
+// I couldn't figure out how to divide the scores by the points possible 
+function assignmentScores(submissions, assignmentGroup) {
+    // let keys = Object.keys(submissions)
+    // let values = Object.values(submissions)
+    let collectData = []
 
-//     // Cycle through LearnerSubmissions for the learner_id
-//     for (let i = 0; i < submissions.length; i++) {
-//         if (typeof (submissions[i].learner_id) === "number") {
-//             collectData.push(submissions[i].learner_id, submissions[i].submission.score)
-//             console.log(`${submissions[i].learner_id}: ${submissions[i].submission.score}`)
+    // Get the grades of each learner
+    let learnerSubmissionScores = submissions.reduce((acc, sub) => {
+        if (!acc[sub.learner_id]) {
+            acc[sub.learner_id] = []
+        }
+        acc[sub.learner_id].push(sub.submission.score)
+        return acc
+    }, {})
+    console.log(learnerSubmissionScores) // { '125': [ 47, 150, 400 ], '132': [ 39, 140 ] }
 
-//             // collectData[keys[i]] = values[i]
-//         }
-//     }
-//     // console.log(keys)
-//     // console.log(values)
-//     console.log(collectData)
-// }
-// assignmentScores(LearnerSubmissions)
+    let results = {}
+    // Get scores - sub score / points_possible
+    for (let learnerID in learnerSubmissionScores) {
+        let learnerScores = learnerSubmissionScores[learnerID]
+
+        console.log(learnerScores)
+
+    }
+    return results
+
+}
+assignmentScores(LearnerSubmissions, AssignmentGroup.assignments)
 // *************************************************************************
 
 
