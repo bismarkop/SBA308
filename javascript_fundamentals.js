@@ -92,6 +92,23 @@ const LearnerSubmissions = [
 
 /* Create a function named getLearnerData() that accepts these values as parameters, in the order listed: (CourseInfo, AssignmentGroup, [LearnerSubmission]), and returns the formatted result, which should be an array of objects as described above. You may use as many helper functions as you see fit.*/
 
+//Get learner IDs
+function getLearnerID(submissions) {
+    let student_id = []
+    for (let i = 0; i < submissions.length; i++) {
+        if (typeof (submissions[i].learner_id) === 'number') {
+            student_id.push(submissions[i].learner_id)
+        }
+    }
+    // Remove duplicates
+    let uniqueLearnerID = []
+        for (i = 0; i < student_id.length; i++) {
+            if (uniqueLearnerID.indexOf(student_id[i]) === -1) {
+                uniqueLearnerID.push(student_id[i]);
+            }
+        }
+        return uniqueLearnerID;
+}
 
 
 function getLearnerData (courseInfo, assignmentGroup, learnerSubmissions) {
